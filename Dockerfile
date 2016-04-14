@@ -48,7 +48,7 @@ ENV APP_DEBUG 0
 
 
 #use to be mounted into nginx for exemple
-VOLUME /var/www/app/public
+VOLUME /var/www/app
 
 WORKDIR /var/www/app
 
