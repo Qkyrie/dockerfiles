@@ -11,7 +11,6 @@ if [ ! -f /.invoiceninja-installed ]; then
 	tar -xzf invoiceninja.tar.gz -C /var/www/
 	rm invoiceninja.tar.gz
 	mv /var/www/invoiceninja-2.5.1.3/* /var/www/app/.
-	rmdir /var/www/invoiceninja-2.5.1.3
 	chown -R www-data:www-data /var/www/app
 	composer install --working-dir /var/www/app -o --no-dev --no-interaction  --prefer-source
 
