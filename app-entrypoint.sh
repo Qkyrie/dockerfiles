@@ -5,7 +5,7 @@ set -e
 # DOWNLOAD AND INSTALL INVOICE NINJA
 #####
 
-if [ -f /.invoiceninja-installed ]; then
+if [ ! -f /.invoiceninja-installed ]; then
 	echo "installing invoiceninja for the first time"
 	curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja/archive/v2.5.1.3.tar.gz
 	tar -xzf invoiceninja.tar.gz -C /var/www/
@@ -18,7 +18,7 @@ if [ -f /.invoiceninja-installed ]; then
 			echo "gratz! invoiceninja installed!"
 
 			echo "adding username and password to the .env file"
-			echo "DB_USERNAME=$DB_USERNAME" >> .env
+			echo "DB_USERNAME=$DB_USERNE" >> .env
 			echo "DB_PASSWORD=$DB_PASSWORD" >> .env
 
 			chown www-data .env
