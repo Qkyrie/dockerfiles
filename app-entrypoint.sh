@@ -21,7 +21,7 @@ if [ ! -f /.invoiceninja-installed ]; then
 			echo "DB_PASSWORD=$DB_PASSWORD" >> .env
 
 			chown www-data .env
-			chown -R /var/www/app
+			chown -R www-data /var/www/app
 fi
 
 touch /.invoiceninja-installed
