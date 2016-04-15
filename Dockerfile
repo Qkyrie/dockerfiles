@@ -27,7 +27,7 @@ VOLUME /var/www/app
 ENV INVOICENINJA_VERSION 2.5.1.3
 #ENV INVOICENINJA_SHA1 3e9b63c1681b6923dc1a24399411c1abde6ef5ea
 
-RUN curl -o invoiceninja.tar.gz -SL https://github.com/invoiceninja/invoice-ninja/archive/v${INVOICENINJA_VERSION}.tar.gz \
+RUN curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja/archive/v${INVOICENINJA_VERSION}.tar.gz \
 #    && echo "$INVOICENINJA_SHA1 *invoiceninja.tar.gz" | sha1sum -c - \
     && tar -xzf invoiceninja.tar.gz -C /var/www/ \
     && rm invoiceninja.tar.gz \
