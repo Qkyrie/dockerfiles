@@ -18,6 +18,21 @@ RUN apt-get update \
 #####
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#####
+# DOWNLOAD AND INSTALL INVOICE NINJA
+#####
+
+ENV INVOICENINJA_VERSION 2.5.1.3
+
+RUN curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja/archive/v${INVOICENINJA_VERSION}.tar.gz \
+    && tar -xzf invoiceninja.tar.gz -C /var/www/ \
+    && rm invoiceninja.tar.gz \
+    && mv /var/www/invoiceninja-${INVOICENINJA_VERSION} /var/www/app \
+    && chown -R www-data:www-data /var/www/app \
+    && composer install --working-dir /var/www/app -o --no-dev --no-interaction  --prefer-source \
+    && mv /var/www/app/storage /var/www/app/docker-backup-storage \
+    && mv /var/www/app/config /var/www/app/docker-backup-config \
+    && mv /var/www/app/public /var/www/app/docker-backup-public
 
 ######
 # DEFAULT ENV
@@ -29,7 +44,9 @@ ENV LOG errorlog
 ENV APP_DEBUG 0
 
 
-VOLUME /var/www/app
+VOLUME /var/www/app/config
+VOLUME /var/www/app/public
+VOLUME /var/www/app/storage
 WORKDIR /var/www/app
 
 EXPOSE 80
