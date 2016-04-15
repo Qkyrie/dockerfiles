@@ -14,15 +14,27 @@ docker run -d -v "$PWD"/config:/var/www/app/config -v "$PWD"/public:/var/www/app
 
 ##Installing
 
-apt-get update
-apt-get install vim
-
-user@myVPS:~# php artisan migrate
-user@myVPS:~# php artisan db:seed
-
-user@myVPS:~# php artisan key:generate
-user@myVPS:~# vim app/config/app.php
+###Generating the initial database
+```
+php artisan migrate
+```
+###Seeding the database for God knows what reason
+```
+php artisan db:seed
+```
+###Generating a secret key to use
+```
+php artisan key:generate
+```
+```
+vi app/config/app.php
+```
+```
 'key' => 'iL7OD2fbvjJvIcSgalLThFaEM4gPtPNF'
+```
 
 ##Adding Debugging
+
+```
 -e APP_DEBUG=1
+```
