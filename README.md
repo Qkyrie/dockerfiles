@@ -1,6 +1,6 @@
 DockerFile for invoice ninja (https://www.invoiceninja.com/)
 
-docker run -d -v "$PWD":/var/www/app --name invoiceninja -p 127.0.0.1:9010:9000 --link pikachu-mysql:mysql -e DB_DATABASE=ninja -e DB_USERNAME=invoiceninja -e DB_HOST=mysql -e DB_PASSWORD=invoiceninjapwd qkyrie/invoiceninja:1.6
+docker run -d -v "$PWD"/config:/var/www/app/config -v "$PWD"/public:/var/www/app/public -v "$PWD"/storage:/var/www/app/storage --name invoiceninja -p 127.0.0.1:9010:9000 --link pikachu-mysql:mysql -e DB_DATABASE=ninja -e DB_USERNAME=invoiceninja -e DB_HOST=mysql -e DB_PASSWORD=invoiceninjapwd qkyrie/invoiceninja:1.7
 
 ##Installing
 
