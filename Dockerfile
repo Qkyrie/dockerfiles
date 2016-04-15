@@ -31,7 +31,7 @@ RUN curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja
 #    && echo "$INVOICENINJA_SHA1 *invoiceninja.tar.gz" | sha1sum -c - \
     && tar -xzf invoiceninja.tar.gz -C /var/www/ \
     && rm invoiceninja.tar.gz \
-    && mv /var/www/invoiceninja-${INVOICENINJA_VERSION} /var/www/app \
+    && mv -avr /var/www/invoiceninja-${INVOICENINJA_VERSION}/* /var/www/app/. \
     && chown -R www-data:www-data /var/www/app \
     && composer install --working-dir /var/www/app -o --no-dev --no-interaction  --prefer-source
 
