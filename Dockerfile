@@ -1,16 +1,18 @@
-FROM php:fpm
+FROM php:7.0-fpm
 
-MAINTAINER Samuel Laulhau <sam@lalop.co>
+MAINTAINER Quinten De Swaef <quintendeswaef@gmail.com>
 
 #####
 # SYSTEM REQUIREMENT
 #####
 RUN apt-get update \
-    && apt-get install -y \
-        libmcrypt-dev zlib1g-dev git \
+    && apt-get install -y --no-install-recommends \
+        libmcrypt-dev zlib1g-dev git libgmp-dev \
         libfreetype6-dev libjpeg62-turbo-dev libpng12-dev\
+    && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install iconv mcrypt mbstring pdo pdo_mysql zip gd \
+    && docker-php-ext-configure gmp \
+    && docker-php-ext-install iconv mcrypt mbstring pdo pdo_mysql zip gd gmp \
     && rm -rf /var/lib/apt/lists/*
 
 #####
@@ -22,7 +24,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # DOWNLOAD AND INSTALL INVOICE NINJA
 #####
 
-ENV INVOICENINJA_VERSION 2.5.1.3
+ENV INVOICENINJA_VERSION 2.9.1
 
 RUN curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja/archive/v${INVOICENINJA_VERSION}.tar.gz \
     && tar -xzf invoiceninja.tar.gz -C /var/www/ \
@@ -30,6 +32,7 @@ RUN curl -o invoiceninja.tar.gz -SL https://github.com/hillelcoren/invoice-ninja
     && mv /var/www/invoiceninja-${INVOICENINJA_VERSION} /var/www/app \
     && chown -R www-data:www-data /var/www/app \
     && composer install --working-dir /var/www/app -o --no-dev --no-interaction  --prefer-source \
+    && chown -R www-data:www-data /var/www/app/bootstrap/cache \
     && mv /var/www/app/storage /var/www/app/docker-backup-storage \
     && mv /var/www/app/config /var/www/app/docker-backup-config \
     && mv /var/www/app/public /var/www/app/docker-backup-public
@@ -47,6 +50,7 @@ ENV APP_DEBUG 0
 VOLUME /var/www/app/config
 VOLUME /var/www/app/public
 VOLUME /var/www/app/storage
+
 WORKDIR /var/www/app
 
 EXPOSE 80
